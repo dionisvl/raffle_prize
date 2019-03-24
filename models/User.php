@@ -136,4 +136,48 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+
+    /**
+     * Установим параметры приза сгенерировнного для этого пользователя
+     * @param $prize_name
+     * @param $prize_type_name
+     * @param $prize_count
+     * @param int $prize_is_issued
+     */
+    public function setPrize($prize_name, $prize_type_name, $prize_count, $prize_is_issued = 0, $prize_is_generated = 1)
+    {
+        $this_user_id = Yii::$app->user->id;
+
+        $this_user = User::find()
+            ->andWhere(['id' => $this_user_id])
+            ->one();
+
+        $this_user->prize_name = $prize_name;
+        $this_user->prize_count = $prize_count;
+        $this_user->prize_type = $prize_type_name;
+        $this_user->prize_is_issued = $prize_is_issued;
+        $this_user->prize_is_generated = $prize_is_generated;
+        $this_user->save();
+    }
+
+    public function getUserParams()
+    {
+        $this_user_id = Yii::$app->user->id;
+
+        $this_user = User::find()
+            ->andWhere(['id' => $this_user_id])
+            ->one();
+        return $this_user;
+    }
+
+    public function getAwardedUsers()
+    {
+        $awardedUsers = User::find()
+            ->andWhere(['prize_is_generated' => 1])
+            ->andWhere(['prize_is_issued' => 0])
+            ->all();
+
+        return $awardedUsers;
+    }
+
 }

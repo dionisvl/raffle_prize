@@ -38,6 +38,8 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'PrizeGen', 'url' => ['/prize/index']],
+        ['label' => 'admin', 'url' => ['/admin/index']],
 //        ['label' => 'About', 'url' => ['/site/about']],
 //        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
